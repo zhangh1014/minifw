@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.lechisoft.minifw</groupId>
-    <artifactId>jdbc</artifactId>
+    <artifactId>shiro</artifactId>
     <version>1.0</version>
 
     <build>
@@ -54,22 +54,21 @@
             <version>1.2.3</version>
             <scope>test</scope>
         </dependency>
-        <!-- dbcp2 -->
+        <!-- shiro -->
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-dbcp2</artifactId>
-            <version>2.1.1</version>
-        </dependency>
-        <!-- c3p0 -->
-        <dependency>
-            <groupId>com.mchange</groupId>
-            <artifactId>c3p0</artifactId>
-            <version>0.9.5.2</version>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>1.4.0</version>
         </dependency>
         <dependency>
-            <groupId>com.mchange</groupId>
-            <artifactId>mchange-commons-java</artifactId>
-            <version>0.2.12</version>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>1.4.0</version>
         </dependency>
         <!-- test -->
         <dependency>
@@ -79,5 +78,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
+    
 </project>

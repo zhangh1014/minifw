@@ -1,9 +1,9 @@
-package org.lechisoft.minifw.jdbc;
+package org.lechisoft.minifw.jdbc.datasource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MiniLogger {
+class MiniLogger {
     public static Logger getLogger(){
         return LoggerFactory.getLogger("org.lechisoft.minifw.jdbc");
     }

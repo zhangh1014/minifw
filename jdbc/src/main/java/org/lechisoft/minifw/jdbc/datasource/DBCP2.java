@@ -1,4 +1,4 @@
-package org.lechisoft.minifw.jdbc;
+package org.lechisoft.minifw.jdbc.datasource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.dbcp2.BasicDataSourceFactory;

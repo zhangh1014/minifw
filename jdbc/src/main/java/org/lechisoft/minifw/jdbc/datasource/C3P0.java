@@ -1,4 +1,4 @@
-package org.lechisoft.minifw.jdbc;
+package org.lechisoft.minifw.jdbc.datasource;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
