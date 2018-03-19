@@ -24,10 +24,12 @@ public class C3P0 {
         try {
             props.load(C3P0.class.getResourceAsStream(path));
             dataSource = new ComboPooledDataSource();
+            MiniLogger.getLogger().debug("已加载属性文件" + path);
+            MiniLogger.getLogger().debug("已创建C3P0数据源");
         } catch (IOException e) {
-            MiniLogger.getLogger().error("C3P0读取属性文件" + path + "发生异常");
+            MiniLogger.getLogger().error("读取属性文件" + path + "发生异常");
         } catch (Exception e) {
-            MiniLogger.getLogger().error("创建C3P0发生异常");
+            MiniLogger.getLogger().error("创建C3P0数据源发生异常");
         }
 
         // 动态为数据源属性赋值

@@ -22,10 +22,12 @@ public class DBCP2 {
         try {
             props.load(DBCP2.class.getResourceAsStream(path));
             dataSource = BasicDataSourceFactory.createDataSource(props);
+            MiniLogger.getLogger().debug("已加载属性文件" + path);
+            MiniLogger.getLogger().debug("已创建DBCP2数据源");
         } catch (IOException e) {
             MiniLogger.getLogger().error("DBCP2读取属性文件" + path + "发生异常");
         } catch (Exception e) {
-            MiniLogger.getLogger().error("创建DBCP2发生异常");
+            MiniLogger.getLogger().error("创建DBCP2数据源发生异常");
         }
         return dataSource;
     }
