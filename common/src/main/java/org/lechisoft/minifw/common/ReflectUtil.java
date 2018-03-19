@@ -1,5 +1,6 @@
 package org.lechisoft.minifw.common;
 
+
 import com.sun.istack.internal.NotNull;
 
 import java.lang.reflect.Field;
