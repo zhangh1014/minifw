@@ -8,49 +8,59 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 属性文件加载器
+ */
 public class PropertiesLoader {
 
     private Map<String, LinkedProperties> mapProps;
 
+
+    /**
+     * 构造函数
+     */
     public PropertiesLoader() {
         this.mapProps = new HashMap<>();
     }
 
-    private void load(String path) {
-        File file = new File(path);
-        if (file.exists() && file.isFile()) {
+    /**
+     * 加载属性文件，保存并返回Properties对象
+     *
+     * @param path 文件路径，如：/abc.properties
+     * @return Properties对象
+     */
+    public LinkedProperties load(String path) {
+        MiniLogger.debug("正在读取属性文件：" + path);
+        URL url = PropertiesLoader.class.getResource(path);
+        if (null == url) {
+            MiniLogger.error("属性文件不存在");
+            return null;
+        } else {
             LinkedProperties lnkProps = new LinkedProperties();
+            File file = new File(url.getPath());
             try {
                 InputStream is = new FileInputStream(file);
                 lnkProps.load(is);
                 this.mapProps.put(file.getName(), lnkProps);
                 is.close();
-                MiniLogger.getLogger().debug("已加载属性文件" + path);
+                MiniLogger.debug("读取属性文件成功");
+                return lnkProps;
             } catch (IOException e) {
-                MiniLogger.getLogger().error("读取属性文件" + path + "发生异常");
+                MiniLogger.error("读取属性文件发生异常");
             }
-        } else {
-            MiniLogger.getLogger().error("属性文件" + path + "不存在");
         }
+        return null;
     }
 
     /**
-     * 加载属性文件
-     *
-     * @param paths 基于classes的文件路径，如：/abc.properties
+     * 根据属性文件的名称获取已加载的Properties对象
+     * @param fileName 属性文件名称
+     * @return Properties对象
      */
-    public void load(String... paths) {
-        if (paths.length > 0) {
-            for (String path : paths) {
-                URL url = PropertiesLoader.class.getResource(path);
-                if (null == url) {
-                    MiniLogger.getLogger().error("属性文件" + path + "不存在");
-                } else {
-                    this.load(path);
-                }
-            }
-        }
+    public LinkedProperties get(String fileName) {
+        return this.mapProps.get(fileName);
     }
+
 
     /**
      * 获取指定键的值

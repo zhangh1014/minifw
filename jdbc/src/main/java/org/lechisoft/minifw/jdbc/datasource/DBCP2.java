@@ -17,19 +17,27 @@ public class DBCP2 {
      * @return 数据源
      */
     public static DataSource getDataSource(String path) {
+        MiniLogger.debug("正在创建DBCP2数据源...");
         BasicDataSource dataSource = null;
+
+        MiniLogger.debug("正在读取属性文件：" + path);
         Properties props = new Properties();
         try {
             props.load(DBCP2.class.getResourceAsStream(path));
+            MiniLogger.debug("读取属性文件成功");
+
             dataSource = BasicDataSourceFactory.createDataSource(props);
-            MiniLogger.getLogger().debug("已加载属性文件" + path);
-            MiniLogger.getLogger().debug("已创建DBCP2数据源");
+            MiniLogger.debug("创建DBCP2数据源成功");
+            return dataSource;
         } catch (IOException e) {
-            MiniLogger.getLogger().error("DBCP2读取属性文件" + path + "发生异常");
+            props = null;
+            MiniLogger.error("读取属性文件发生异常");
+            return null;
         } catch (Exception e) {
-            MiniLogger.getLogger().error("创建DBCP2数据源发生异常");
+            props = null;
+            MiniLogger.error("创建DBCP2数据源发生异常");
+            return null;
         }
-        return dataSource;
     }
 
     /**

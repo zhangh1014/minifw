@@ -11,7 +11,6 @@ import java.util.Set;
 
 public class C3P0 {
 
-
     /**
      * 获取C3P0数据源
      *
@@ -19,20 +18,22 @@ public class C3P0 {
      * @return 数据源
      */
     public static DataSource getDataSource(String path) {
-        ComboPooledDataSource dataSource = null;
+        MiniLogger.debug("正在创建C3P0数据源...");
+        ComboPooledDataSource dataSource = new ComboPooledDataSource();
+
+        MiniLogger.debug("正在读取属性文件：" + path);
         Properties props = new Properties();
         try {
             props.load(C3P0.class.getResourceAsStream(path));
-            dataSource = new ComboPooledDataSource();
-            MiniLogger.getLogger().debug("已加载属性文件" + path);
-            MiniLogger.getLogger().debug("已创建C3P0数据源");
+            MiniLogger.debug("读取属性文件成功");
         } catch (IOException e) {
-            MiniLogger.getLogger().error("读取属性文件" + path + "发生异常");
-        } catch (Exception e) {
-            MiniLogger.getLogger().error("创建C3P0数据源发生异常");
+            props = null;
+            MiniLogger.error("读取属性文件发生异常");
+            return null;
         }
 
         // 动态为数据源属性赋值
+        MiniLogger.debug("正在配置数据源...");
         Set<Object> keySet = props.keySet();
         for (Object object : keySet) {
             String key = object.toString();
@@ -51,16 +52,19 @@ public class C3P0 {
             }
 
             if (null == m) {
-                MiniLogger.getLogger().warn("C3P0属性" + key + "不存在");
+                MiniLogger.warn("属性" + key + "不存在");
             } else {
                 try {
                     m.invoke(dataSource, value);
-                    MiniLogger.getLogger().debug(key + "=" + value);
+                    MiniLogger.debug(key + "=" + value);
                 } catch (IllegalAccessException | InvocationTargetException e) {
-                    MiniLogger.getLogger().warn("C3P0设置属性" + key + "发生异常");
+                    MiniLogger.warn("属性" + key + "发生异常");
                 }
             }
         }
+        MiniLogger.debug("配置数据源成功");
+
+        MiniLogger.debug("创建C3P0数据源成功");
         return dataSource;
     }
 

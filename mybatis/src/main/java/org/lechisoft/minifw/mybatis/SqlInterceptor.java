@@ -32,22 +32,25 @@ import java.util.Properties;
         @Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})})
 public class SqlInterceptor implements Interceptor {
 
-    public enum DataBaseType {
-        ORACLE, SQLSERVER, MYSQL
-    }
-
-    DataBaseType dataBaseType = DataBaseType.ORACLE;
-
     private String pagingSql = "";
 
     public SqlInterceptor(String path) {
+        MiniLogger.debug("正在创建SQL拦截器...");
+        MiniLogger.debug("正在读取属性文件：" + path);
         Properties props = new Properties();
         try {
             props.load(SqlInterceptor.class.getResourceAsStream(path));
             pagingSql = props.getProperty("pagingSql");
+            MiniLogger.debug("pagingSql=" + pagingSql);
+            MiniLogger.debug("读取属性文件成功");
+            MiniLogger.debug("创建SQL拦截器成功");
         } catch (IOException e) {
-            MiniLogger.getLogger().error("SqlInterceptor读取属性文件" + path + "发生异常");
+            props = null;
+            MiniLogger.error("读取属性文件发生异常");
         }
+    }
+    public SqlInterceptor(){
+        this("/paging.properties");
     }
 
     public Object intercept(Invocation invocation) throws Throwable {
@@ -85,7 +88,7 @@ public class SqlInterceptor implements Interceptor {
                     }
 
                     // 记录SQL
-                    MiniLogger.getLogger().debug("paging sql:\n" + this.getSql(statementHandler.getBoundSql()));
+                    MiniLogger.debug("paging sql:\n" + this.getSql(statementHandler.getBoundSql()));
                 }
             }
         }
@@ -183,7 +186,7 @@ public class SqlInterceptor implements Interceptor {
                 parameterHandler.setParameters(pstmt);
 
                 // 记录SQL
-                MiniLogger.getLogger().debug("total record sql:\n" + this.getSql(countBoundSql));
+                MiniLogger.debug("total record sql:\n" + this.getSql(countBoundSql));
 
                 ResultSet rs = pstmt.executeQuery();
                 if (rs.next()) {
