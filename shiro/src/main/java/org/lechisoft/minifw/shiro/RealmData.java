@@ -27,11 +27,4 @@ public interface RealmData {
      * @return 权限列表
      */
     List<String> getPermissions(String userName);
-
-    /**
-     * 获取对URL过滤的过滤链定义
-     *
-     * @return Map对象
-     */
-    Map<String, String> getFilterChainDefinitionMap();
 }

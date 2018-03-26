@@ -12,9 +12,11 @@ import java.util.Set;
  */
 public class LinkedProperties extends Properties {
 	private static final long serialVersionUID = 1L;
-	
 	private final LinkedHashSet<Object> keys;
 
+    /**
+     * 构造函数
+     */
     public LinkedProperties() {
         keys = new LinkedHashSet<>();
     }
