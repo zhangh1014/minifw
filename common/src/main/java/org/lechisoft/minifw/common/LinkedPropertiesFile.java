@@ -1,9 +1,6 @@
 package org.lechisoft.minifw.common;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 
 /**
@@ -26,8 +23,10 @@ public class LinkedPropertiesFile {
             this.linkedProperties = new LinkedProperties();
             try {
                 MiniLogger.debug("正在读取属性文件：" + path);
-                InputStream is = new FileInputStream(file);
-                this.linkedProperties.load(is);
+                InputStream is = new FileInputStream(this.file);
+                InputStreamReader isr = new InputStreamReader(is,"UTF-8");
+                this.linkedProperties.load(isr);
+                isr.close();
                 is.close();
                 MiniLogger.debug("读取属性文件成功");
 
