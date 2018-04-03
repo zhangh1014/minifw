@@ -5,8 +5,6 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.Cache;
-import org.apache.shiro.cache.CacheManager;
-import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -14,16 +12,17 @@ public class RetryHashedCredentialsMatcher extends HashedCredentialsMatcher {
     private Cache<String, AtomicInteger> cache;
 
     private int maxRetry = 5;
+
     public int getMaxRetry() {
         return maxRetry;
     }
+
     public void setMaxRetry(int maxRetry) {
         this.maxRetry = maxRetry;
     }
 
-    public RetryHashedCredentialsMatcher() {
-        CacheManager cacheManager = new MemoryConstrainedCacheManager();
-        this.cache = cacheManager.getCache("miniCache");
+    public RetryHashedCredentialsMatcher(Cache<String, AtomicInteger> cache) {
+        this.cache = cache;
     }
 
     @Override
