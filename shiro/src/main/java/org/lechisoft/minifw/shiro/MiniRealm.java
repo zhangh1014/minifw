@@ -1,6 +1,7 @@
 package org.lechisoft.minifw.shiro;
 
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -14,7 +15,6 @@ public class MiniRealm extends AuthorizingRealm {
 
     public MiniRealm(RealmData data) {
         this.data = data;
-        this.setHashedCredentialsMatcher("MD5", 1, true);
     }
 
     @Override
@@ -39,20 +39,5 @@ public class MiniRealm extends AuthorizingRealm {
         authorizationInfo.addStringPermissions(this.data.getPermissions(userName));
 
         return authorizationInfo;
-    }
-
-    /**
-     * 加密
-     *
-     * @param hashAlgorithmName           散列算法的名字，如MD5，SHA-256等
-     * @param hashIterations              散列迭代次数
-     * @param storedCredentialsHexEncoded true:Hex,false:Base64
-     */
-    public void setHashedCredentialsMatcher(String hashAlgorithmName, int hashIterations, boolean storedCredentialsHexEncoded) {
-        HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher();
-        credentialsMatcher.setHashAlgorithmName(hashAlgorithmName);
-        credentialsMatcher.setHashIterations(hashIterations);
-        credentialsMatcher.setStoredCredentialsHexEncoded(storedCredentialsHexEncoded);
-        this.setCredentialsMatcher(credentialsMatcher);
     }
 }
