@@ -1,5 +1,6 @@
 package org.lechisoft.minifw.shiro;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -39,5 +40,13 @@ public class MiniRealm extends AuthorizingRealm {
         authorizationInfo.addStringPermissions(this.data.getPermissions(userName));
 
         return authorizationInfo;
+    }
+
+    /**
+     * 清空缓存
+     */
+    public void clearCached() {
+        PrincipalCollection principals = SecurityUtils.getSubject().getPrincipals();
+        super.clearCache(principals);
     }
 }
