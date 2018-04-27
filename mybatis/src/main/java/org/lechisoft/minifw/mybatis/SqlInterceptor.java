@@ -88,7 +88,7 @@ public class SqlInterceptor implements Interceptor {
                     }
 
                     // 记录SQL
-                    MiniLogger.debug("paging sql:\n" + this.getSql(statementHandler.getBoundSql()));
+                    MiniLogger.debug("sql:\n" + this.getSql(statementHandler.getBoundSql()));
                 }
             }
         }
