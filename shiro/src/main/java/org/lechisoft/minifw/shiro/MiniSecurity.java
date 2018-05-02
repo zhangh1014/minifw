@@ -48,6 +48,10 @@ public class MiniSecurity {
         return MiniSecurity.getSubject().isAuthenticated();
     }
 
+    public static boolean isRemembered() {
+        return MiniSecurity.getSubject().isRemembered();
+    }
+
     public static void signIn(String userName, String password) {
         MiniSecurity.signIn(userName, password, false);
     }
