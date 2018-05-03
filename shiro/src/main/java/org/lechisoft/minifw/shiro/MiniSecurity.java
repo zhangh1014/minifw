@@ -58,9 +58,7 @@ public class MiniSecurity {
 
     public static void signIn(String userName, String password, boolean rememberMe) {
         UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
-        if(rememberMe){
-            token.setRememberMe(true);
-        }
+        token.setRememberMe(rememberMe);
         MiniSecurity.getSubject().login(token);
     }
 
