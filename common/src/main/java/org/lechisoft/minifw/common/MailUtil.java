@@ -49,7 +49,7 @@ public class MailUtil {
         }
     }
 
-    public static void send(String to, String subject, String content, String fileStr) {
+    public static void send(String to, String subject, String content, String fileStr) throws MessagingException {
 
         Properties prop = new Properties();
         prop.setProperty("mail.transport.protocol", protocol); // 协议
@@ -79,35 +79,32 @@ public class MailUtil {
         session.setDebug(true);
 
         MimeMessage mimeMessage = new MimeMessage(session);
-        try {
-            mimeMessage.setFrom(new InternetAddress(account)); // 发件人
-            // mimeMessage.setFrom(new InternetAddress(account,"Lechisoft")); // 可以设置发件人的别名
-            mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to)); // 收件人
-            mimeMessage.setSubject(subject); // 主题
-            mimeMessage.setSentDate(new Date()); // 时间
-            Multipart mp = new MimeMultipart(); // 容器类，可以包含多个MimeBodyPart对象
-            MimeBodyPart body = new MimeBodyPart(); // MimeBodyPart可以包装文本，图片，附件
-            body.setContent(content, "text/html; charset=UTF-8"); // HTML正文
-            mp.addBodyPart(body);
 
-            // 添加附件
-            if (!"".equals(fileStr)) {
-                body = new MimeBodyPart();
-                try {
-                    body.attachFile(fileStr);
-                    mp.addBodyPart(body);
-                } catch (IOException e) {
-                    MiniLogger.error(e.getMessage());
-                }
+        mimeMessage.setFrom(new InternetAddress(account)); // 发件人
+        // mimeMessage.setFrom(new InternetAddress(account,"Lechisoft")); // 可以设置发件人的别名
+        mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to)); // 收件人
+        mimeMessage.setSubject(subject); // 主题
+        mimeMessage.setSentDate(new Date()); // 时间
+        Multipart mp = new MimeMultipart(); // 容器类，可以包含多个MimeBodyPart对象
+        MimeBodyPart body = new MimeBodyPart(); // MimeBodyPart可以包装文本，图片，附件
+        body.setContent(content, "text/html; charset=UTF-8"); // HTML正文
+        mp.addBodyPart(body);
+
+        // 添加附件
+        if (!"".equals(fileStr)) {
+            body = new MimeBodyPart();
+            try {
+                body.attachFile(fileStr);
+                mp.addBodyPart(body);
+            } catch (IOException e) {
+                MiniLogger.error(e.getMessage());
             }
-
-            mimeMessage.setContent(mp); // 设置邮件内容
-            //仅仅发送文本
-            //mimeMessage.setText(content);
-            mimeMessage.saveChanges();
-            Transport.send(mimeMessage);
-        } catch (MessagingException e) {
-            e.printStackTrace();
         }
+
+        mimeMessage.setContent(mp); // 设置邮件内容
+        //仅仅发送文本
+        //mimeMessage.setText(content);
+        mimeMessage.saveChanges();
+        Transport.send(mimeMessage);
     }
 }
